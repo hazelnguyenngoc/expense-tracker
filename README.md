@@ -31,18 +31,18 @@ Many people, especially those who are anxious about money, struggle to track the
 ---
 
 ## Project Structure
+```
 expense-tracker/
 ├── main.py              # FastAPI backend - all API endpoints
 ├── index.html           # Main HTML page
 ├── requirements.txt     # Python dependencies
-├── static/
-│   ├── css/
-│   │   └── style.css    # All styles including dark mode and responsive
-│   ├── js/
-│   │   └── main.js      # Frontend logic - fetch, render, filter, charts
-│   └── receipts/        # Uploaded receipt files (auto-created)
-
----
+└── static/
+    ├── css/
+    │   └── style.css    # All styles including dark mode and responsive
+    ├── js/
+    │   └── main.js      # Frontend logic - fetch, render, filter, charts
+    └── receipts/        # Uploaded receipt files (auto-created)
+```
 
 ## Setup Instructions
 
