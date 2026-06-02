@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Expense Tracker</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="header-left">
+            <h1>My Expense Tracker</h1>
+            <p class="subtitle">"spend wisely, or don't. we're just watching."</p>
+        </div>
+        <div class="header-right">
+            <span class="header-date" id="headerDate"></span>
+            <button class="dark-toggle" id="darkToggle" onclick="toggleDarkMode()">Dark Mode</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="two-col-layout">
+
+            <!-- LEFT COLUMN -->
+            <aside class="left-col">
+
+                <!-- TOTAL CARD -->
+                <div class="total-card">
+                    <p class="total-label">This month's <span>damage</span></p>
+                    <p class="total-amount" id="totalAmount">$0.00</p>
+                </div>
+
+                <!-- MONTHLY TREND -->
+                <div class="chart-card">
+                    <h3 class="chart-title">Monthly Trend</h3>
+                    <div id="barChartContainer"></div>
+                </div>
+
+                <!-- CATEGORY BREAKDOWN -->
+                <div class="chart-card">
+                    <h3 class="chart-title">By Category</h3>
+                    <div id="categoryLegend"></div>
+                </div>
+
+                <!-- SCROLL TO TOP -->
+                <button class="scroll-top-btn" onclick="scrollToTop()" aria-label="Scroll to top">↑</button>
+
+            </aside>
+
+            <!-- RIGHT COLUMN -->
+            <section class="right-col">
+
+                <!-- ADD EXPENSE FORM -->
+                <div class="form-section">
+                    <h2>Add New Expense</h2>
+                    <div class="form-body">
+                        <div class="form-left">
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input type="text" id="title" placeholder="e.g. Lunch at cafe">
+                            </div>
+                            <div class="form-group">
+                                <label for="amount">Amount</label>
+                                <input type="number" id="amount" placeholder="0.00" step="0.01" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="category">Category</label>
+                                <select id="category">
+                                    <option value="Rent">Rent</option>
+                                    <option value="Electricity">Electricity</option>
+                                    <option value="Internet">Internet</option>
+                                    <option value="Groceries">Groceries</option>
+                                    <option value="Eating Out">Eating Out</option>
+                                    <option value="Leisure">Leisure</option>
+                                    <option value="Transport">Transport</option>
+                                    <option value="Uncategorized">Uncategorized</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="date">Date</label>
+                                <input type="date" id="date">
+                            </div>
+                        </div>
+                        <div class="form-right">
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea id="description" placeholder="Any extra notes..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Pictures / Receipts</label>
+                                <div class="file-input-wrapper">
+                                    <input type="file" id="receipt" accept="*/*">
+                                    <span class="file-input-label" id="fileLabel">Choose a file...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-add" onclick="addExpense()">+ Add Expense</button>
+                </div>
+
+                <!-- EXPENSE LIST -->
+                <div class="list-section">
+                    <div class="list-header">
+                        <h2>Expense List</h2>
+                        <div class="list-controls">
+                            <input type="text" id="searchInput" placeholder="Search by title..." oninput="filterExpenses()">
+                            <div class="filter-group">
+                                <select id="filterCategory" onchange="filterExpenses()">
+                                    <option value="All">All Categories</option>
+                                    <option value="Rent">Rent</option>
+                                    <option value="Electricity">Electricity</option>
+                                    <option value="Internet">Internet</option>
+                                    <option value="Groceries">Groceries</option>
+                                    <option value="Eating Out">Eating Out</option>
+                                    <option value="Leisure">Leisure</option>
+                                    <option value="Transport">Transport</option>
+                                    <option value="Uncategorized">Uncategorized</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="expense-list" id="expenseList">
+                        <p class="empty-message">No expenses yet. Add one above!</p>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </main>
+
+    <!-- EDIT MODAL -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()" aria-label="Close modal">✕</button>
+            <h2>Edit Expense</h2>
+            <div class="form-body">
+                <div class="form-left">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" id="editTitle">
+                    </div>
+                    <div class="form-group">
+                        <label>Amount</label>
+                        <input type="number" id="editAmount" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="editCategory">
+                            <option value="Rent">Rent</option>
+                            <option value="Electricity">Electricity</option>
+                            <option value="Internet">Internet</option>
+                            <option value="Groceries">Groceries</option>
+                            <option value="Eating Out">Eating Out</option>
+                            <option value="Leisure">Leisure</option>
+                            <option value="Transport">Transport</option>
+                            <option value="Uncategorized">Uncategorized</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" id="editDate">
+                    </div>
+                </div>
+                <div class="form-right">
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="editDescription"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Replace Picture</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" id="editReceipt" accept="*/*">
+                            <span class="file-input-label" id="editFileLabel">Choose a file...</span>
+                        </div>
+                        <p class="receipt-hint" id="currentReceiptHint"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+                <button class="btn-save" onclick="saveEdit()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+        <div class="lightbox-content">
+            <img id="lightboxImg" src="" alt="Receipt" style="display:none;">
+            <div id="lightboxFile" style="display:none;">
+                <p class="lightbox-filename" id="lightboxFilename"></p>
+                <a id="lightboxDownload" href="" target="_blank" class="btn-download">Download File</a>
+            </div>
+            <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+        </div>
+    </div>
+
+    <!-- CONFIRM DIALOG -->
+    <div class="confirm-overlay" id="confirmOverlay">
+        <div class="confirm-box">
+            <p class="confirm-message" id="confirmMessage"></p>
+            <div class="confirm-buttons">
+                <button class="btn-cancel" onclick="closeConfirm()">Cancel</button>
+                <button class="btn-confirm-delete" id="confirmDeleteBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
