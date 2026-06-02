@@ -119,7 +119,7 @@ http://127.0.0.1:8000/
 - There are known edge cases where Google Fonts may not render consistently across all environments.
 - Given the current project scope and my evolving proficiency with the tech stack, the architecture is relatively straightforward. Future versions would benefit from a more robust framework like React + Vite to improve performance and code maintainability.
 
-Improvement
+Limitation
 1. No try/except blocks around any DB calls in main.pyLinks to an external site.. If MySQL is down, the server throws an unhandled 500 with a raw Python traceback, no user-friendly error message.
 2. On the frontend, fetch calls in main.js have no .catch() handlers for network failures. If the API is unreachable, the UI silently does nothing, the expense list stays blank with no feedback to the user.
 
