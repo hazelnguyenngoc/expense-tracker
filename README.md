@@ -128,9 +128,3 @@ Improvement
 - Gamification: To increase user engagement, I plan to introduce interactive elements—such as a "growth" mechanic where consistent saving milestones are represented by a digital tree.
 - Code Refinement: I intend to further modularize the file structure to improve clarity and scalability, ensuring the codebase is organized according to industry best practices.
 
-
-## Author
-
-Ngoc Thanh Hien (Hazel) Nguyen - Student ID: 25655174  
-Subject: 32516 Internet Programming - Autumn 2026  
-Institution: University of Technology Sydney
